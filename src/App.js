@@ -51,7 +51,8 @@ class App extends Component{
   constructor(props){
     super(props); //state초기화
     this.state = {
-      mode:"welcome",
+      mode:"read",
+      selected_content_id:2,
       subject:{title:"WEB", sub:"world wide web!"},
       welcome:{title:"Welcome", desc:"Hello, React!!"},
       contents:[
@@ -67,15 +68,40 @@ class App extends Component{
       _title = this.state.welcome.title;
       _desc = this.state.welcome.desc;
     }else if(this.state.mode === "read"){
-
+      _title = this.state.contents[0].title;
+      _desc = this.state.contents[0].desc;
     }
     return (
       <div className="App">
        <Subject 
         title={this.state.subject.title}
-        sub={this.state.subject.sub}>
-        </Subject>
-        <TOC data={this.state.contents}></TOC>
+        sub={this.state.subject.sub}
+        onChangePage={function(){
+          this.setState({
+            mode:'welcome'
+          })
+        }.bind(this)}  
+      >
+       </Subject>
+       {/*  <header>
+          <h1> <a href = '/' onClick={function(e){
+            console.log(e);
+            e.preventDefault(); //이벤트 실행 후 기본적인 동작 막기
+            //this.state.mode='welcome';
+            this.setState({
+              mode:'welcome'
+            }); 
+          }.bind(this)}> {this.state.subject.title} </a></h1 >
+          {this.state.subject.sub}
+        </header> */}
+        <TOC onChangePage={function(){
+          alert("hihiihi");
+          this.setState({
+            mode:'read'
+          })
+          }.bind(this)} 
+          data={this.state.contents}
+        ></TOC>
         <Content title={_title} desc={_desc}></Content>
         
       </div>

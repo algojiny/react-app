@@ -68,8 +68,18 @@ class App extends Component{
       _title = this.state.welcome.title;
       _desc = this.state.welcome.desc;
     }else if(this.state.mode === "read"){
-      _title = this.state.contents[0].title;
-      _desc = this.state.contents[0].desc;
+      var i = 0;
+      while(i < this.state.contents.length){
+        var data = this.state.contents[i];
+        if( data.id == this.state.selected_content_id){
+        _title = data.title;
+        _desc = data.desc;
+          break;
+        }
+        i++;
+      }
+      // _title = this.state.contents[0].title;
+      // _desc = this.state.contents[0].desc;
     }
     return (
       <div className="App">
@@ -78,7 +88,7 @@ class App extends Component{
         sub={this.state.subject.sub}
         onChangePage={function(){
           this.setState({
-            mode:'welcome'
+            mode:'welcome',
           })
         }.bind(this)}  
       >
@@ -94,11 +104,11 @@ class App extends Component{
           }.bind(this)}> {this.state.subject.title} </a></h1 >
           {this.state.subject.sub}
         </header> */}
-        <TOC onChangePage={function(){
-          alert("hihiihi");
+        <TOC onChangePage={function(id){
           this.setState({
-            mode:'read'
-          })
+            mode:'read',
+            selected_content_id: id
+          });
           }.bind(this)} 
           data={this.state.contents}
         ></TOC>
